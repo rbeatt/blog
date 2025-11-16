@@ -2,15 +2,14 @@
 title: 'About'
 ---
 
-<!--
-This content will be displayed at the top of the index page.
-You can leave this empty if you don’t want to show any content.
--->
+Hi, I’m **Ryan Beattie**, a software engineer from Belfast who enjoys building things that make life a little easier and a little smarter.
 
-A static blog theme based on [Astro](https://astro.build), designed for clarity and focus.
+I spend most of my time exploring how software, cloud systems, and AI can work together to solve real problems. I like clean design, thoughtful engineering, and learning something new every day.
 
-With a deliberately minimal design, this layout ensures your content takes center stage. It's built for flexibility, offering customization options that honor its clean and elegant aesthetic.
+When I’m not coding, you’ll probably find me tinkering with new ideas, helping others get started in tech, or writing about what I’ve learnt along the way.
 
-Effortlessly share your thoughts in _a calm & dustless space._
+Thanks for stopping by. This space is where I share thoughts, experiments, and reflections on the journey.
 
-Check posts for details and view source on [GitHub](https://github.com/the3ash/astro-chiri).
+You can reach me at **hello@ryanbeattie.dev** or find me on [LinkedIn](https://www.linkedin.com/in/ryanbeatt) and [GitHub](https://www.github.com/rbeatt).
+
+---

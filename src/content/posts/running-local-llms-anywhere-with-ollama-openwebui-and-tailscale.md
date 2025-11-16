@@ -32,7 +32,7 @@ Ollama runs the models locally, OpenWebUI provides a browser interface to intera
 
 ### 4.1 Install Ollama
 
-Download the appropriate version of Ollama for your operating system and follow the installation instructions. Confirm the installation with:
+Download the appropriate version of Ollama for your operating system from the [official Ollama download page](https://ollama.com/download) and follow the installation instructions. Confirm the installation with:
 
 ```bash
 ollama --help
@@ -51,62 +51,58 @@ For most setups, Mistral 7B is a great model to start with because it offers a g
 After downloading a model, test it with:
 
 ```bash
-ollama run mistral
+ollama run mistral:7b
 ```
 
-### 4.3 Run Ollama as a Service
+### 4.3 Running Ollama Automatically on Startup
 
-To keep Ollama running in the background:
+To ensure Ollama is available whenever your system is on, you can configure it to start automatically on boot:
 
-- macOS or Linux: use launchd or systemd
-- Windows: use Task Scheduler
+- **macOS:** Use `launchd` to run Ollama at login or system startup.
+- **Linux:** Use `systemd` to create a service that starts Ollama automatically.
+- **Windows:** Configure Ollama to start when you log in.
 
-This ensures your models are available whenever you need them.
+This keeps your local models ready for use without manual startup each time.
 
 ## 5. Setting Up OpenWebUI
 
 ### 5.1 Installation
 
-Docker provides the easiest installation method:
+The easiest way to install OpenWebUI is via Docker. For full, up-to-date instructions, see the [official OpenWebUI quick-start guide](https://docs.openwebui.com/getting-started/quick-start).
 
-```bash
-docker pull ghcr.io/open-webui/open-webui:main
-
-docker run -d \
-  -p 3000:8080 \
-  --add-host=host.docker.internal:host-gateway \
-  -v open-webui:/app/backend/data \
-  --name open-webui \
-  --restart always \
-  ghcr.io/open-webui/open-webui:main
-```
-
-This maps the container’s port 8080 to port 3000 on your host, stores OpenWebUI data in a persistent Docker volume and allows the container to communicate with Ollama running on the host machine.
+When running OpenWebUI in Docker, use a restart policy such as `--restart unless-stopped` so the container will automatically start if your system reboots. This ensures your local AI interface is always available.
 
 ### 5.2 Connecting OpenWebUI to Ollama
 
-Open your browser and navigate to http://localhost:3000.
+Once OpenWebUI is running, open your browser and go to:
 
-In OpenWebUI settings, open Connections (or the backend configuration) and set the backend URL to your Ollama instance. When using Docker, this is often:
+```
+http://localhost:3000
+```
 
+In the OpenWebUI settings, open Connections (or the backend configuration) and set the backend URL to your Ollama instance. When running OpenWebUI in Docker on Windows or macOS, this is typically:
+
+```
 http://host.docker.internal:11434
+```
 
-Save your settings and send a test prompt to confirm that OpenWebUI is correctly routing requests to your local Ollama models.
+*Note: On Linux, you may need to use `http://localhost:11434` instead of `host.docker.internal`.*
 
+Save the settings and send a test prompt to ensure OpenWebUI is correctly communicating with your local Ollama models.
 
 ## 6. Enabling Remote Access with Tailscale
 
 ### 6.1 Why Use Tailscale?
 
-Tailscale creates a secure private network between your devices, allowing you to access OpenWebUI and Ollama without opening ports to the public internet.
+Tailscale creates a secure private network between your devices. This allows you to access OpenWebUI and Ollama from anywhere without exposing ports to the public internet.
 
 ### 6.2 Installation
 
-Install Tailscale on the host machine and any devices you want to connect from. Sign in to the same tailnet.
+Install Tailscale on the host machine and any other devices you want to connect from. Sign in to the same tailnet to ensure all devices can see each other.
 
 ### 6.3 Allowing Access
 
-Each device receives a private IP and hostname. You can access OpenWebUI using a MagicDNS name such as:
+Each device receives a private IP address and optionally a MagicDNS hostname. You can use this to access OpenWebUI from another device, for example:
 
 ```
 http://mydesktop:3000
@@ -114,7 +110,9 @@ http://mydesktop:3000
 
 ### 6.4 Testing
 
-Visit the hostname and port from another device and submit a prompt to ensure the system is working. Wi-Fi generally provides the most reliable connection.
+Open the hostname and port from another device on your tailnet and submit a prompt to confirm everything is working. Wi-Fi usually provides the most reliable connection.
+
+*Personal note:* In my experience, accessing your tailnet via mobile data networks can sometimes be unreliable, so Wi-Fi is recommended for testing and regular use.
 
 ## 7. Performance Tips and Best Practices
 
@@ -139,6 +137,7 @@ Visit the hostname and port from another device and submit a prompt to ensure th
 - **Team or household use:** OpenWebUI supports multiple users, so families or small teams can share the same local model securely through Tailscale.
 
 - **MCP servers:** You can extend your setup with Model Context Protocol (MCP) servers, which allow models to make controlled use of external tools such as APIs, documentation sources or file operations.  
+  MCP servers act as connectors that give your local LLM access to external resources in a secure and manageable way.  
   The MCP community maintains a registry of available servers here: 
   ::github{repo="modelcontextprotocol/servers"}
 
@@ -151,3 +150,5 @@ Visit the hostname and port from another device and submit a prompt to ensure th
 By combining Ollama, OpenWebUI and Tailscale, you can create a private, flexible and accessible local AI setup. This approach keeps your data on your own hardware while allowing you to interact with your models securely from multiple devices.
 
 Once running, you can experiment with different models, explore new workflows and adapt the setup to your needs. Whether for personal productivity, homelab projects or shared use, a local LLM environment gives you full control and a foundation that can grow as tools and models continue to improve.
+
+Any suggestions for improvement or feedback are welcome. Please message me on [LinkedIn](https://www.linkedin.com/in/ryanbeatt) or [email](mailto:hello@ryanbeattie.dev) me directly.
